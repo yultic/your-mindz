@@ -39,3 +39,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# agents and skills (protege archivos locales de IA)
+.agents/
+skills-lock*
+*.lock
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+
