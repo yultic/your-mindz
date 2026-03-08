@@ -41,7 +41,7 @@ const SESSION_OPTIONS = [
 ] as const
 
 type SessionId = typeof SESSION_OPTIONS[number]['id']
-
+// funcipn que hace que cuando el usuario eliga que booking usar, si no hay nada seleccionado es null.
 export function BookingSection() {
   const [selectedSession, setSelectedSession] = useState<SessionId | null>(null)
   const [showPayment, setShowPayment] = useState(false)
@@ -131,28 +131,11 @@ export function BookingSection() {
               </div>
             </div>
 
-            {/* Calendly embed - always visible */}
-            <div>
-              <p className="text-sm font-medium text-foreground mb-3">
-                2. Select your time slot:
-              </p>
-              <div className="bg-background rounded-lg border border-border p-4">
-                <iframe
-                  src="https://calendly.com/your-username/30min"
-                  width="100%"
-                  height="600"
-                  frameBorder="0"
-                  title="Calendly Booking Calendar"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-            {/* Payment section */}
+            {/* Step 2: Payment (only for paid sessions and if not yet paid) */}
             {selectedSession && selectedSession !== 'initial' && !paymentDone && (
-              <div>
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <p className="text-sm font-medium text-foreground mb-3">
-                  3. Complete payment:
+                  2. Complete payment:
                 </p>
                 {!showPayment ? (
                   <Button
@@ -193,37 +176,53 @@ export function BookingSection() {
                           sessionType={activeSession?.id}
                           onSuccess={handlePaymentSuccess}
                           onCancel={() => setShowPayment(false)}
-                          onError={(err) => console.error('Payment error:', err)} clasName={''}                      />
+                          onError={(err) => console.error('Payment error:', err)}
+                      />
                     </CardContent>
                   </Card>
                 )}
               </div>
             )}
 
-            {/* Free consultation flow */}
-            {selectedSession === 'initial' && (
+            {/* Step 2 or 3: Calendly embed (only after payment or if free) */}
+            {(selectedSession === 'initial' || (selectedSession && paymentDone)) && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <p className="text-sm font-medium text-foreground mb-3">
+                  {selectedSession === 'initial' ? '2. Select your time slot:' : '3. Now, select your time slot:'}
+                </p>
+                <div className="bg-background rounded-lg border border-primary/20 p-4 shadow-sm ring-1 ring-primary/5">
+                  <iframe
+                    src="https://calendly.com/your-username/30min"
+                    width="100%"
+                    height="600"
+                    frameBorder="0"
+                    title="Calendly Booking Calendar"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Free consultation flow indicator */}
+            {selectedSession === 'initial' && !paymentDone && (
               <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-sm text-green-800 font-medium">
-                  ✓ Initial consultations are free — just select your preferred time slot above.
+                <p className="text-sm text-green-800 font-medium flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4" />
+                  Initial consultations are free — choose your preferred time slot above.
                 </p>
               </div>
             )}
 
-            {/* Payment success confirmation */}
+            {/* Payment success confirmation header */}
             {paymentDone && paidResult && (
-              <div className="p-5 bg-green-50 border border-green-200 rounded-lg space-y-2">
+              <div className="p-5 bg-green-50 border border-green-200 rounded-lg space-y-2 mb-4">
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-green-600" />
                   <p className="font-semibold text-green-800">Payment confirmed!</p>
                 </div>
                 <p className="text-sm text-green-700">
-                  Thank you{paidResult.payerName ? `, ${paidResult.payerName}` : ''}. Your session is booked and payment received.
+                  Thank you{paidResult.payerName ? `, ${paidResult.payerName}` : ''}. Your session credit is active. Please use the calendar below to finalize your booking.
                 </p>
-                {paidResult.payerEmail && (
-                  <p className="text-xs text-green-600">
-                    Confirmation sent to: {paidResult.payerEmail}
-                  </p>
-                )}
               </div>
             )}
 

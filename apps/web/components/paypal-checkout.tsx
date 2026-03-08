@@ -22,8 +22,7 @@ export interface PaypalCheckoutProps {
     onSuccess?: (result: PaymentResult) => void
     onCancel?: () => void
     onError?: (error: unknown) => void
-    clasName: string
-
+    className?: string
 }
 
 function PayPalButtonWrapper ({
@@ -35,7 +34,7 @@ function PayPalButtonWrapper ({
     onError
 }: Omit<PaypalCheckoutProps, 'currency' | 'className'>) {
     const [{ isPending, isResolved, isRejected}] = usePayPalScriptReducer()
-    const [paymentState, setPaymentState] = useState< 'iddle' | 'processing' | 'success' | 'error'>('iddle')
+    const [paymentState, setPaymentState] = useState< 'idle' | 'processing' | 'success' | 'error'>('idle')
     const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
     const createOrder = useCallback(async () => {
@@ -92,7 +91,7 @@ function PayPalButtonWrapper ({
     )
 
     const handleCancel = useCallback(() => {
-        setPaymentState('iddle')
+        setPaymentState('idle')
         onCancel?.()        
     }, [onCancel])
 
@@ -193,13 +192,14 @@ export function PaypalCheckout({
   onSuccess,
   onCancel,
   onError,
+  className,
 }: PaypalCheckoutProps) {
   return (
-    <div className={cn('w-full')}>
+    <div className={cn('w-full', className)}>
       <PayPalScriptProvider
         options={{
           clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-          currency,
+          currency: "USD",
           intent: 'capture',
           components: 'buttons',
         }}
@@ -210,7 +210,7 @@ export function PaypalCheckout({
                   sessionType={sessionType}
                   onSuccess={onSuccess}
                   onCancel={onCancel}
-                  onError={onError} clasName={""} 
+                  onError={onError}
                   />
       </PayPalScriptProvider>
     </div>

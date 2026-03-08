@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+Install dependencies: Run pnpm install in the root directory to link all packages.
+ Start the database: Run podman-compose up -d to start the PostgreSQL container.
+   Initialize Prisma:
+    cd packages/database
+    npx prisma generate
+    npx prisma db push
+   Run in development mode: From the root, run pnpm dev (this will start both the frontend and backend using
+      Turborepo).
+
+      npm dev --filter web   # Solo Next.js
+   pnpm dev --filter api   # Solo NestJS
