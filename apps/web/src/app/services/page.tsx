@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import { Navigation } from '@/components/navigation'
-import { Footer } from '@/components/footer'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Navigation } from '@/components/layout/navigation'
+import { Footer } from '@/components/layout/footer'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button } from '@jess-web/ui'
 import { Brain, Heart, Eye, Users, Zap, TrendingUp } from 'lucide-react'
 
 export const metadata: Metadata = {

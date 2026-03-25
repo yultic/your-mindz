@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { StructuredData } from '@/components/structured-data'
+import { StructuredData } from '@/components/layout/structured-data'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -10,7 +10,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Professional Therapy & Counseling Services | Licensed Therapist',
   description: 'Compassionate, evidence-based therapy for anxiety, depression, trauma, and more. Book your appointment online with a licensed psychotherapist. Confidential, professional mental health support.',
-  generator: 'yultic.app',
+  generator: 'skinner.app',
   keywords: 'therapist, psychotherapist, counseling, therapy, mental health, licensed therapist, anxiety treatment, depression help, trauma therapy',
   authors: [{ name: 'Therapist Name' }],
   creator: 'Therapist Name',
