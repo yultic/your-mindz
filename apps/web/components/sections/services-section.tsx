@@ -60,18 +60,18 @@ export function ServicesSection() {
   ]
 
   return (
-    <section id="services" className="py-24 px-4 bg-[#fdfdfc]">
+    <section id="services" className="py-24 px-6 md:px-8 bg-navbar-bg overflow-x-clip">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-serif text-[#4a5568] mb-6">
+          <h2 className="text-4xl md:text-5xl font-serif text-[#4a5568] mb-6 px-4">
             So arbeiten wir zusammen
           </h2>
-          <p className="text-lg text-[#4a5568]/70 max-w-3xl mx-auto italic">
+          <p className="text-lg text-[#4a5568]/70 max-w-3xl mx-auto italic px-4">
             Diskrete, professionelle und flexible therapeutische Angebote, die sich nahtlos in Ihr Leben einfügen – nicht umgekehrt.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 items-stretch">
+        <div className="grid lg:grid-cols-3 gap-18 lg:gap-10 items-stretch py-8">
           {services.map((service, index) => {
             const Icon = service.icon
             const LocationIcon = service.locationIcon
@@ -80,30 +80,30 @@ export function ServicesSection() {
               <Card 
                 key={index} 
                 className={cn(
-                  "relative flex flex-col h-full border-none shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] rounded-[2.5rem] overflow-visible transition-all duration-300",
+                  "relative flex flex-col h-full border-none shadow-[0_20px_50px_-12px_rgba(0,0,0,0.2)] rounded-[2.5rem] overflow-visible transition-all duration-500 hover:shadow-[0_30px_70px_-10px_rgba(0,0,0,0.25)] max-w-[20rem] md:max-w-[30rem] mx-auto",
                   service.highlight 
-                    ? "bg-[#e8f3ee] md:scale-105 z-10 border-t-4 border-[#8fbfa8]/20" 
-                    : "bg-white border-t border-gray-100"
+                    ? "bg-[#dcede5] md:scale-105 z-10 border-t-4 border-[#8fbfa8]/30" 
+                    : "bg-[#f4f5f4] border-t border-gray-200"
                 )}
               >
                 {service.cornerBadge && (
-                  <div className="absolute -top-5 -right-5 w-24 h-24 bg-[#8fbfa8] rounded-full flex items-center justify-center text-white text-[10px] uppercase tracking-widest font-bold rotate-12 shadow-lg z-20 text-center leading-tight p-2 italic">
+                  <div className="absolute -top-4 -right-2 md:-top-5 md:-right-5 w-20 h-20 md:w-24 md:h-24 bg-[#8fbfa8] rounded-full flex items-center justify-center text-white text-[9px] md:text-[10px] uppercase tracking-widest font-bold rotate-12 shadow-lg z-20 text-center leading-tight p-2 italic">
                     {service.cornerBadge}
                   </div>
                 )}
                 
-                <CardHeader className="pt-16 pb-8 text-center space-y-4">
+                <CardHeader className="pt-16 pb-8 text-center space-y-4 px-6 md:px-10">
                   <div className="mx-auto flex items-center justify-center">
                     <div className="p-5 rounded-[2rem] bg-transparent border-[1.5px] border-[#8fbfa8]/30 text-[#8fbfa8]">
-                      <Icon className="w-14 h-14 stroke-[1]" />
+                      <Icon className="w-12 h-12 md:w-14 md:h-14 stroke-[1]" />
                     </div>
                   </div>
                   
                   <div className="space-y-1">
-                    <CardTitle className="text-3xl font-serif text-[#4a5568]">
+                    <CardTitle className="text-2xl md:text-3xl font-serif text-[#4a5568]">
                       {service.title}
                     </CardTitle>
-                    <p className="text-xl font-serif text-[#4a5568]/60 italic">{service.subtitle}</p>
+                    <p className="text-lg md:text-xl font-serif text-[#4a5568]/60 italic">{service.subtitle}</p>
                   </div>
 
                   <div className="flex justify-center">
@@ -122,7 +122,7 @@ export function ServicesSection() {
                   </div>
                 </CardHeader>
 
-                <CardContent className="flex-grow px-10 pb-12 flex flex-col">
+                <CardContent className="flex-grow px-6 md:px-10 pb-12 flex flex-col">
                   <p className="text-[#4a5568]/70 text-sm mb-10 leading-relaxed text-center font-light">
                     {service.description}
                   </p>
@@ -148,7 +148,7 @@ export function ServicesSection() {
                       <div className="text-[#4a5568]/60 text-xs font-medium mb-2 tracking-wide uppercase">
                         Invest:
                       </div>
-                      <div className="text-3xl font-bold text-[#4a5568] flex items-baseline justify-center gap-1">
+                      <div className="text-2xl md:text-3xl font-bold text-[#4a5568] flex items-baseline justify-center gap-1">
                         <span className="text-sm font-medium text-[#8fbfa8]/60">ab</span>
                         {service.price.replace('ab ', '')}
                       </div>
@@ -167,6 +167,21 @@ export function ServicesSection() {
               </Card>
             )
           })}
+        </div>
+
+        {/* Texto de Orientierungsgespräch debajo de las cards */}
+        <div className="text-center mt-20 mb-8 px-4">
+          <p className="text-[#6a917e] text-lg md:text-xl leading-relaxed max-w-4xl mx-auto font-light">
+            <span className="font-bold">Jede Zusammenarbeit</span> beginnt mit einem unverbindlichen und kostenfreien{' '}
+            <span className="font-bold">Orientierungsgespräch</span>. Gemeinsam klären wir, wo Sie gerade stehen, welche{' '}
+            <span className="font-bold">Ziele</span> Sie verfolgen und welches <span className="font-bold">Angebot</span> zu Ihrer Situation passt.{' '}
+            Darüber hinaus haben Sie die Möglichkeit, offene Fragen zu stellen und sich einen ersten Eindruck von der Zusammenarbeit zu verschaffen.
+          </p>
+          <div className="mt-10">
+            <Button className="bg-[#6a917e] hover:bg-[#5a8570] text-white rounded-full px-10 py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+              Orientierungsgespräch vereinbaren
+            </Button>
+          </div>
         </div>
       </div>
     </section>

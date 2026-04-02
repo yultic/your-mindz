@@ -44,7 +44,12 @@ export function Navigation() {
   return (
     <nav className={`fixed top-0 w-full bg-navbar-bg backdrop-blur-sm border-b border-border z-50 transition-transform duration-100 ${isHidden ? "-translate-y-full" : "translate-y-0"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-28">
+        <div className="flex justify-between items-center h-20 md:h-28">
+          {/* Logo Central (Desktop) / Izquierda (Mobile) */}
+          <div className="flex md:hidden items-center">
+            <Logo className="scale-75 origin-left" />
+          </div>
+
           {/* Menú Izquierdo (Desktop) */}
           <div className="hidden md:flex flex-1 items-center justify-end space-x-10">
             {navLinksLeft.map((link) => (
@@ -58,8 +63,8 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Logo Central */}
-          <div className="flex-shrink-0 px-12">
+          {/* Logo Central (Desktop Only) */}
+          <div className="hidden md:flex flex-shrink-0 px-12">
             <Logo />
           </div>
 
@@ -79,7 +84,7 @@ export function Navigation() {
           {/* Botón Menú Móvil */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-brand-gray hover:text-brand-green transition-colors"
+            className="md:hidden p-2 text-brand-gray hover:text-brand-green transition-colors z-50"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
