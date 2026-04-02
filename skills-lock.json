@@ -1,6 +1,61 @@
 {
   "version": 1,
   "skills": {
+    "agent-eval": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "743b7c3c3a9444e1a6ad3be4471c0ce2c60f9560a4613d4230a7af3ed3fc5f73"
+    },
+    "agent-harness-construction": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "5601e5ab105717b62a249aa6875482d1865433dfd89e2d7fe25166df950e13ec"
+    },
+    "agent-payment-x402": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "ee44aa73beaec6739b3edc8956ab13d9df907bacc35b58ea7a712d7e44658e15"
+    },
+    "agentic-engineering": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "6437efa9eac379b2701001d596610adf1f37afa02b8309145c9462c8e3cf9eff"
+    },
+    "ai-first-engineering": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "62b9568daf7bb5cbf649e55becec5739439e50c892b269c25dfe007d6a3cb54d"
+    },
+    "ai-regression-testing": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "092a063807f6662b6d339eea6fa8564cb420bfbeb28fe99e9be4a0cf76c18e3a"
+    },
+    "api-design": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "718b7be2b2c0798d4da7f79d860cc2af8ca114f55b5ff508e93c2feb468d20c2"
+    },
+    "architecture-decision-records": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "3108a62e2d812aad5f1d192281dc79d7c2891234ef179ca97cf79472286f5126"
+    },
+    "browser-qa": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "5fa0d1495511ea20aa3a947251ec76be9892011aa6171937c4d7db958a516c8b"
+    },
+    "claude-api": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "bea0610f07db61fe9b3291b6bbe344f117e8ac391744b240ddf3e0e69b1c2457"
+    },
+    "content-engine": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "23605943a7433f98955fd372d52678a27bdc8f0f37dd760e126cea9990f421e7"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
