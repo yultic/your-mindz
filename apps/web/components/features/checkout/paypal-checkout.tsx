@@ -194,24 +194,41 @@ export function PaypalCheckout({
   onError,
   className,
 }: PaypalCheckoutProps) {
+  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+  
+  // Debug temporal: Abre la consola del navegador (F12) para ver este mensaje
+  console.log('DEBUG PayPal Client ID:', clientId ? "Cargado correctamente" : "NO CARGADO (está vacío o undefined)");
+
+  if (!clientId) {
+    return (
+      <div className={cn('p-4 border border-yellow-200 bg-yellow-50 rounded-lg text-yellow-800 text-xs flex flex-col gap-2', className)}>
+        <p className="font-bold flex items-center gap-2">
+          <AlertCircle className="w-4 h-4" />
+          PayPal Configuration Missing
+        </p>
+        <p>Please add <strong>NEXT_PUBLIC_PAYPAL_CLIENT_ID</strong> to your .env file and restart the development server.</p>
+      </div>
+    );
+  }
+
   return (
     <div className={cn('w-full', className)}>
       <PayPalScriptProvider
         options={{
-          clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-          currency: "USD",
+          clientId: clientId,
+          currency: currency,
           intent: 'capture',
           components: 'buttons',
         }}
       >
         <PayPalButtonWrapper
-                  amount={amount}
-                  description={description}
-                  sessionType={sessionType}
-                  onSuccess={onSuccess}
-                  onCancel={onCancel}
-                  onError={onError}
-                  />
+          amount={amount}
+          description={description}
+          sessionType={sessionType}
+          onSuccess={onSuccess}
+          onCancel={onCancel}
+          onError={onError}
+        />
       </PayPalScriptProvider>
     </div>
   )

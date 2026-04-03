@@ -5,6 +5,7 @@ import { WhoComesSection } from '@/components/sections/whocomessection'
 import { ServicesSection } from '@/components/sections/services-section'
 import { BookingSection } from '@/components/sections/booking-section'
 import { Testimonials } from '@/components/sections/testimonials'
+import { FAQSection } from '@/components/sections/faq-section'
 import { CtaSection } from '@/components/sections/cta-section'
 import { Footer } from '@/components/layout/footer'
 
@@ -18,6 +19,7 @@ export default function Home() {
       <ServicesSection />
       <BookingSection />
       <Testimonials />
+      <FAQSection showContactCard={false} />
       <CtaSection />
       <Footer />
     </main>

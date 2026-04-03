@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export function TherapistProfile() {
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-background">
+    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-navbar-bg">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         {/* Left Column: Image with specific proportions */}
         <div className="relative aspect-[4/5] lg:aspect-square w-full max-w-lg mx-auto overflow-hidden rounded-sm shadow-sm">

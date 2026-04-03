@@ -192,7 +192,7 @@ export function BookingSection() {
                 </p>
                 <div className="bg-background rounded-lg border border-primary/20 p-4 shadow-sm ring-1 ring-primary/5">
                   <iframe
-                    src="https://calendly.com/your-username/30min"
+                    src="https://calendly.com/juan_skinnersv-proton"
                     width="100%"
                     height="600"
                     frameBorder="0"
