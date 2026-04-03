@@ -1,9 +1,17 @@
-import { Card, CardContent, CardHeader, CardTitle, Badge, Button, cn } from '@jess-web/ui'
-import { Lightbulb, Sprout, ArrowUpRight, Check, Globe, MapPin } from 'lucide-react'
+'use client'
+
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, Badge, Button, cn, CardDescription } from '@jess-web/ui'
+import { Lightbulb, Sprout, ArrowUpRight, Check, Globe, MapPin, CreditCard, CheckCircle, X } from 'lucide-react'
+import { PaypalCheckout, type PaymentResult } from '@/components/features/checkout/paypal-checkout'
 
 export function ServicesSection() {
+  const [activePaymentId, setActivePaymentId] = useState<string | null>(null)
+  const [completedPayments, setCompletedPayments] = useState<Record<string, boolean>>({})
+
   const services = [
     {
+      id: 'impuls-session',
       title: 'Impuls-Session',
       subtitle: 'Starke Klarheit.',
       icon: Lightbulb,
@@ -16,11 +24,13 @@ export function ServicesSection() {
         'individuelle Impulse und Übungen zum Mitnehmen',
         'wahlweise im Einzel- oder Paar-Setting'
       ],
-      price: '600 €',
+      price: '600.00',
+      displayPrice: '600 €',
       priceDetail: 'inkl. MwSt.',
       highlight: false,
     },
     {
+      id: 'therapeutische-begleitung',
       title: 'Therapeutische Begleitung',
       subtitle: 'Nachhaltige Veränderung.',
       icon: Sprout,
@@ -32,14 +42,16 @@ export function ServicesSection() {
       features: [
         'bis zu 3 psychologischen Gesprächsterminen/Monat (á 60 min, online per Video oder Telefon)',
         'individuelle Impulse und Übungen zum Mitnehmen',
-        'kontinuierlicher Support per E-Mail oder Messenger',
+        'kontinuierlicher Support per E-Mail o. Messenger',
         'wahlweise im Einzel- oder Paar-Setting'
       ],
-      price: 'ab 4.500 €',
+      price: '4500.00',
+      displayPrice: 'ab 4.500 €',
       priceDetail: 'inkl. MwSt. (750 € monatlich)',
       highlight: true,
     },
     {
+      id: 'intensiv-tag',
       title: 'Therapie-Intensiv-Tag',
       subtitle: 'Ein Tag. Ihr Wendepunkt.',
       icon: ArrowUpRight,
@@ -53,11 +65,21 @@ export function ServicesSection() {
         'individuelle Impulse und Übungen zum Mitnehmen',
         'wahlweise im Einzel- oder Paar-Setting'
       ],
-      price: '2.300 €',
+      price: '2300.00',
+      displayPrice: '2.300 €',
       priceDetail: 'inkl. MwSt. und Räumlichkeiten',
       highlight: false,
     }
   ]
+
+  const handlePaymentSuccess = (serviceId: string) => {
+    setCompletedPayments(prev => ({ ...prev, [serviceId]: true }))
+    setActivePaymentId(null)
+    // Redirigir suavemente al calendario después de un breve delay
+    setTimeout(() => {
+      window.location.href = '#booking'
+    }, 2000)
+  }
 
   return (
     <section id="services" className="py-24 px-6 md:px-8 bg-navbar-bg overflow-x-clip">
@@ -75,6 +97,8 @@ export function ServicesSection() {
           {services.map((service, index) => {
             const Icon = service.icon
             const LocationIcon = service.locationIcon
+            const isPaying = activePaymentId === service.id
+            const isPaid = completedPayments[service.id]
             
             return (
               <Card 
@@ -123,46 +147,76 @@ export function ServicesSection() {
                 </CardHeader>
 
                 <CardContent className="flex-grow px-6 md:px-10 pb-12 flex flex-col">
-                  <p className="text-[#4a5568]/70 text-sm mb-10 leading-relaxed text-center font-light">
-                    {service.description}
-                  </p>
-                  
-                  <div className="mb-10 space-y-6">
-                    <h4 className="font-bold text-[#4a5568] text-[13px] tracking-tight border-b border-[#8fbfa8]/10 pb-2">
-                      {service.duration}
-                    </h4>
-                    <ul className="space-y-4">
-                      {service.features.map((feature, fIndex) => (
-                        <li key={fIndex} className="flex items-start gap-3 text-sm text-[#4a5568]/80 leading-snug">
-                          <div className="mt-1 bg-[#8fbfa8] rounded-full p-0.5 shrink-0">
-                            <Check className="w-3 h-3 text-white" />
-                          </div>
-                          <span className="font-light">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-auto pt-10 text-center">
-                    <div className="bg-background/50 rounded-3xl py-8 px-4 mb-8 border border-[#8fbfa8]/5 shadow-inner">
-                      <div className="text-[#4a5568]/60 text-xs font-medium mb-2 tracking-wide uppercase">
-                        Invest:
+                  {isPaying ? (
+                    <div className="flex-grow flex flex-col justify-center space-y-6 animate-in fade-in zoom-in duration-300">
+                      <div className="flex items-center justify-between border-b border-[#8fbfa8]/20 pb-4">
+                        <h4 className="font-bold text-[#4a5568]">Sichere Zahlung</h4>
+                        <button onClick={() => setActivePaymentId(null)} className="text-[#4a5568]/40 hover:text-red-400">
+                          <X className="w-5 h-5" />
+                        </button>
                       </div>
-                      <div className="text-2xl md:text-3xl font-bold text-[#4a5568] flex items-baseline justify-center gap-1">
-                        <span className="text-sm font-medium text-[#8fbfa8]/60">ab</span>
-                        {service.price.replace('ab ', '')}
-                      </div>
-                      <div className="text-[10px] text-[#4a5568]/50 mt-2 font-medium">
-                        {service.priceDetail}
-                      </div>
+                      <PaypalCheckout 
+                        amount={service.price}
+                        description={`${service.title} - ${service.duration}`}
+                        sessionType={service.id}
+                        onSuccess={() => handlePaymentSuccess(service.id)}
+                        onCancel={() => setActivePaymentId(null)}
+                      />
                     </div>
-                    
-                    <Button 
-                      className="w-full bg-[#8fbfa8] hover:bg-[#7aa894] text-white rounded-full py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      JETZT ANFRAGEN
-                    </Button>
-                  </div>
+                  ) : isPaid ? (
+                    <div className="flex-grow flex flex-col items-center justify-center text-center space-y-4 animate-in bounce-in duration-500">
+                      <div className="bg-green-100 p-4 rounded-full">
+                        <CheckCircle className="w-12 h-12 text-green-600" />
+                      </div>
+                      <h4 className="text-xl font-bold text-green-800">Zahlung erfolgreich!</h4>
+                      <p className="text-sm text-green-700">Vielen Dank. Wir leiten Sie nun zum Kalender weiter...</p>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-[#4a5568]/70 text-sm mb-10 leading-relaxed text-center font-light">
+                        {service.description}
+                      </p>
+                      
+                      <div className="mb-10 space-y-6">
+                        <h4 className="font-bold text-[#4a5568] text-[13px] tracking-tight border-b border-[#8fbfa8]/10 pb-2">
+                          {service.duration}
+                        </h4>
+                        <ul className="space-y-4">
+                          {service.features.map((feature, fIndex) => (
+                            <li key={fIndex} className="flex items-start gap-3 text-sm text-[#4a5568]/80 leading-snug">
+                              <div className="mt-1 bg-[#8fbfa8] rounded-full p-0.5 shrink-0">
+                                <Check className="w-3 h-3 text-white" />
+                              </div>
+                              <span className="font-light">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="mt-auto pt-10 text-center">
+                        <div className="bg-background/50 rounded-3xl py-8 px-4 mb-8 border border-[#8fbfa8]/5 shadow-inner">
+                          <div className="text-[#4a5568]/60 text-xs font-medium mb-2 tracking-wide uppercase">
+                            Invest:
+                          </div>
+                          <div className="text-2xl md:text-3xl font-bold text-[#4a5568] flex items-baseline justify-center gap-1">
+                            <span className="text-sm font-medium text-[#8fbfa8]/60">ab</span>
+                            {service.displayPrice.replace('ab ', '')}
+                          </div>
+                          <div className="text-[10px] text-[#4a5568]/50 mt-2 font-medium">
+                            {service.priceDetail}
+                          </div>
+                        </div>
+                        
+                        <Button 
+                          onClick={() => setActivePaymentId(service.id)}
+                          className="w-full bg-[#8fbfa8] hover:bg-[#7aa894] text-white rounded-full py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
+                        >
+                          <CreditCard className="w-4 h-4" />
+                          JETZT BUCHEN
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </CardContent>
               </Card>
             )
@@ -178,8 +232,11 @@ export function ServicesSection() {
             Darüber hinaus haben Sie die Möglichkeit, offene Fragen zu stellen und sich einen ersten Eindruck von der Zusammenarbeit zu verschaffen.
           </p>
           <div className="mt-10">
-            <Button className="bg-[#6a917e] hover:bg-[#5a8570] text-white rounded-full px-10 py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
-              Orientierungsgespräch vereinbaren
+            <Button 
+              asChild
+              className="bg-[#6a917e] hover:bg-[#5a8570] text-white rounded-full px-10 py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+            >
+              <a href="#booking">Orientierungsgespräch vereinbaren</a>
             </Button>
           </div>
         </div>

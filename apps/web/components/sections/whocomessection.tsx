@@ -28,8 +28,6 @@ const profiles = [
   },
 ]
 
-// ─── Component ─────────────────────────────────────────────────────────────────
-
 export function WhoComesSection() {
   return (
     <section className="py-24 px-6 sm:px-6 lg:px-8 bg-muted overflow-x-clip">
