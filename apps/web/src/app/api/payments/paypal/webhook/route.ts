@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import * as crypto from 'crypto'
+import prisma, { Prisma } from '@jess-web/database'
 
 const PAYPAL_BASE_URL =
   process.env.PAYPAL_ENV === 'production'
@@ -26,8 +26,7 @@ async function getAccessToken(): Promise<string> {
 }
 
 /**
- * Verify webhook signature using PayPal's verification API.
- * This is the recommended approach over manual HMAC verification.
+ * Verificando el webhook por si no viene de un atacante queriendose pasar por paypal
  */
 async function verifyWebhookSignature(
   headers: Headers,
@@ -70,7 +69,7 @@ export async function POST(req: NextRequest) {
   // Read raw body BEFORE parsing — needed for signature verification
   const rawBody = await req.text()
 
-  // ─── Signature verification ──────────────────────────────
+  // verificacion de la firma del webhook para asegurarnos que viene de paypal y no de un atacante
   const isValid = await verifyWebhookSignature(req.headers, rawBody)
 
   if (!isValid) {
@@ -90,21 +89,46 @@ export async function POST(req: NextRequest) {
     switch (event.event_type) {
       case 'PAYMENT.CAPTURE.COMPLETED': {
         const capture = event.resource
-        /**
-         * TODO: Implement your business logic here:
-         * - Mark appointment as paid in DB
-         * - Send confirmation email to patient
-         * - Notify therapist
-         *
-         * Example:
-         * await appointmentService.confirmPayment({
-         *   captureId: capture.id,
-         *   orderId: capture.supplementary_data?.related_ids?.order_id,
-         *   amount: capture.amount.value,
-         *   payerEmail: capture.payer?.email_address,
-         * })
-         */
-        console.log('[PayPal Webhook] Payment completed:', capture.id)
+        const orderId = capture.supplementary_data?.related_ids?.order_id
+        
+        if (!orderId) {
+          console.error('[PayPal Webhook] Capture event missing order_id', capture.id)
+          break
+        }
+
+        // Preparamos los datos comunes para evitar repetición (DRY)
+        const paymentData = {
+          captureId: capture.id,
+          status: 'paid',
+          paidAt: capture.create_time ? new Date(capture.create_time) : new Date(),
+          payerEmail: capture.payer?.email_address,
+          payerName: `${capture.payer?.name?.given_name ?? ''} ${capture.payer?.name?.surname ?? ''}`.trim(),
+          // Usamos Prisma.Decimal para evitar problemas de precisión de floats
+          amount: new Prisma.Decimal(capture.amount.value), 
+          currency: capture.amount.currency_code,
+        }
+
+        try {
+          await prisma.appointment.upsert({
+            where: { paypalOrderId: orderId },
+            update: {
+              ...paymentData,
+            },
+            create: {
+              paypalOrderId: orderId,
+              sessionType: capture.custom_id ?? 'therapy-session',
+              ...paymentData,
+            },
+          })
+
+          console.log('[PayPal Webhook] Payment completed and saved to DB:', capture.id)
+        } catch (dbError) {
+          if (dbError instanceof Prisma.PrismaClientKnownRequestError && (dbError as Prisma.PrismaClientKnownRequestError).code === 'P2002') {
+             console.error('[PayPal Webhook] Unique constraint failed. Possible duplicate captureId:', (dbError as Prisma.PrismaClientKnownRequestError).meta)
+          } else {
+             throw dbError; // Re-lanzar para que el catch principal lo capture
+          }
+        }
         break
       }
 

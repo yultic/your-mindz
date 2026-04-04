@@ -104,7 +104,6 @@ function PayPalButtonWrapper ({
         )
     }
 
-    // ── PayPal SDK fallo ──
   if (isRejected) {
     return (
       <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm">
@@ -195,9 +194,6 @@ export function PaypalCheckout({
   className,
 }: PaypalCheckoutProps) {
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
-  
-  // Debug temporal: Abre la consola del navegador (F12) para ver este mensaje
-  console.log('DEBUG PayPal Client ID:', clientId ? "Cargado correctamente" : "NO CARGADO (está vacío o undefined)");
 
   if (!clientId) {
     return (
@@ -206,7 +202,7 @@ export function PaypalCheckout({
           <AlertCircle className="w-4 h-4" />
           PayPal Configuration Missing
         </p>
-        <p>Please add <strong>NEXT_PUBLIC_PAYPAL_CLIENT_ID</strong> to your .env file and restart the development server.</p>
+        <p>Please add <strong>NEXT_PUBLIC_PAYPAL_CLIENT_ID</strong> file and restart the development server.</p>
       </div>
     );
   }

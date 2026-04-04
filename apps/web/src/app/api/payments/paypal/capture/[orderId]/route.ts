@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import prisma, { Prisma } from '@jess-web/database'
 
 const PAYPAL_BASE_URL =
   process.env.PAYPAL_ENV === 'production'
@@ -8,7 +9,7 @@ const PAYPAL_BASE_URL =
 async function getAccessToken(): Promise<string> {
   const credentials = Buffer.from(
     `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
-  ).toString('base64')
+  ).toString('base64') // datos de 8 bits (bytes) los re mapea a un conjunto de 64 caracteres.
 
   const res = await fetch(`${PAYPAL_BASE_URL}/v1/oauth2/token`, {
     method: 'POST',
@@ -68,23 +69,50 @@ export async function POST(
       )
     }
 
-    // Extract useful payment data
+    // 1. Extraer datos con seguridad y asegurar fallbacks
     const captureUnit = capture.purchase_units?.[0]
     const captureDetail = captureUnit?.payments?.captures?.[0]
+    
+    // Aseguramos que el valor sea un string válido para Decimal
+    const amountValue = captureDetail?.amount?.value || "0.00"
+    const currencyCode = captureDetail?.amount?.currency_code || "USD"
 
-    const paymentResult = {
-      orderId: capture.id,
-      status: capture.status,
+    const paymentData = {
+      captureId: captureDetail?.id,
+      status: 'paid',
+      paidAt: captureDetail?.create_time ? new Date(captureDetail.create_time) : new Date(),
       payerEmail: capture.payer?.email_address,
       payerName: `${capture.payer?.name?.given_name ?? ''} ${capture.payer?.name?.surname ?? ''}`.trim(),
-      captureId: captureDetail?.id,
-      amount: captureDetail?.amount?.value,
-      currency: captureDetail?.amount?.currency_code,
-      capturedAt: captureDetail?.create_time,
+      amount: new Prisma.Decimal(amountValue),
+      currency: currencyCode,
     }
 
-    // TODO: Here you'd persist to DB, send confirmation email, etc.
-    // e.g.: await db.appointments.update({ orderId, status: 'paid', ...paymentResult })
+    // 2. Lógica de base de datos resiliente
+    try {
+      await prisma.appointment.upsert({
+        where: { paypalOrderId: orderId },
+        update: {
+          ...paymentData,
+        },
+        create: {
+          paypalOrderId: orderId,
+          sessionType: captureUnit?.custom_id ?? 'therapy-session',
+          ...paymentData,
+        },
+      })
+      console.log('[PayPal] Payment saved/updated in DB successfully')
+    } catch (dbErr) {
+      // REGISTRAMOS EL ERROR CRÍTICO pero no lanzamos 500
+      // El pago YA se realizó en PayPal, no queremos asustar al usuario
+      console.error('CRITICAL: Payment succeeded in PayPal but DB update failed:', dbErr)
+    }
+
+    const paymentResult = {
+      orderId,
+      ...paymentData,
+      status: capture.status,
+    }
+
     console.log('[PayPal] Payment captured successfully:', paymentResult)
 
     return NextResponse.json(paymentResult)
