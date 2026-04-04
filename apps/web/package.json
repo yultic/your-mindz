@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
+    "@jess-web/database": "workspace:*",
     "@jess-web/env": "workspace:*",
     "@jess-web/ui": "workspace:*",
     "@paypal/react-paypal-js": "^9.0.1",
