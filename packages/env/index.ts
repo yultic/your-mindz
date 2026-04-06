@@ -10,6 +10,10 @@ const serverSchema = z.object({
   PAYPAL_CLIENT_ID: z.string().min(1),
   PAYPAL_CLIENT_SECRET: z.string().min(1),
   PAYPAL_WEBHOOK_ID: z.string().optional(),
+
+  // Resend
+  RESEND_API_KEY: z.string().min(1),
+  RESEND_FROM_EMAIL: z.string().email().optional().default('confirmaciones@jess-web.com'),
 });
 
 const clientSchema = z.object({
