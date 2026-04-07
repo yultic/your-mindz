@@ -6,6 +6,7 @@ import { cn } from '@jess-web/ui'
 export interface PaymentResult {
     orderId: string
     status: string
+    calendlyToken?: string
     payerEmail?: string
     payerName?: string
     captureId?: string

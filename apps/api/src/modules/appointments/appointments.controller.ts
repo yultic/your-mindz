@@ -21,6 +21,7 @@ export class AppointmentsController {
       valid: true,
       sessionType: appointment.sessionType,
       payerName: appointment.payerName,
+      bookingUrl: appointment.bookingUrl,
     };
   }
 }

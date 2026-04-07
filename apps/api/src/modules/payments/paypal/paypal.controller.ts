@@ -74,4 +74,37 @@ export class PaypalController {
       );
     }
   }
+
+  @Post('webhook')
+  async handleWebhook(@Body() body: any) {
+    console.log(`[PaypalController] Recibiendo webhook de PayPal: ${body.event_type} (ID: ${body.id})`);
+    
+    try {
+      const eventType = body.event_type;
+      const resource = body.resource;
+
+      if (eventType === 'PAYMENT.CAPTURE.COMPLETED') {
+        console.log(`[PaypalController] Procesando pago completado para captura: ${resource.id}`);
+        
+        const orderDetails = await this.paypalService.getOrderDetailsByCapture(resource);
+        const orderId = orderDetails.id;
+        
+        console.log(`[PaypalController] Orden vinculada: ${orderId}. Marcando como pagada en BD...`);
+        
+        // El servicio appointmentsService.markAsPaid es idempotente por el upsert
+        const appointment = await this.appointmentsService.markAsPaid(orderId, orderDetails);
+        
+        console.log(`[PaypalController] Cita actualizada exitosamente. Token: ${appointment.calendlyToken}`);
+
+        // Opcional: Notificar si no se notificó antes (markAsPaid ya envía notificaciones si hay email)
+      } else {
+        console.log(`[PaypalController] Ignorando evento de tipo: ${eventType}`);
+      }
+
+      return { status: 'ok' };
+    } catch (err: any) {
+      console.error('[PaypalController] Error procesando webhook:', err.message || err);
+      return { status: 'error', message: err.message || 'Internal error' };
+    }
+  }
 }
