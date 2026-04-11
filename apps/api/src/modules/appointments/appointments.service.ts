@@ -2,12 +2,16 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
 import { createHash } from 'crypto';
 import { Prisma } from '@jess-web/database';
+import { CalendlyService } from './calendly.service';
 
 @Injectable()
 export class AppointmentsService {
   private readonly logger = new Logger(AppointmentsService.name);
 
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private calendly: CalendlyService,
+  ) {}
 
   generateCalendlyToken(orderId: string): string {
     const secret = process.env.CALENDLY_TOKEN_SECRET ?? 'default-secret';
@@ -34,7 +38,7 @@ export class AppointmentsService {
     // single use link
     let calendlyBookingUrl: string | null = null;
     try {
-      calendlyBookingUrl = await this.createSingleUseLink(payerName, payerEmail);
+      calendlyBookingUrl = await this.calendly.createSingleUseLink(payerName, payerEmail);
     } catch (err) {
       // No bloqueamos el pago si Calendly falla — se reintenta en validateToken
       this.logger.error('Could not create Calendly link during payment:', err);
@@ -81,7 +85,7 @@ export class AppointmentsService {
     let bookingUrl: string | null = appointment.calendlyBookingUrl;
     if (!bookingUrl) {
       try {
-        bookingUrl = await this.createSingleUseLink(
+        bookingUrl = await this.calendly.createSingleUseLink(
           appointment.payerName || '',
           appointment.payerEmail || ''
         );
@@ -96,7 +100,16 @@ export class AppointmentsService {
       }
     }
 
-    // Marcamos el token como usado
+    if (!bookingUrl) {
+      this.logger.warn(`No se pudo obtener bookingUrl para el token ${token}`);
+      return {
+        sessionType: appointment.sessionType,
+        payerName: appointment.payerName,
+        bookingUrl: null,
+      };
+    }
+
+    // Marcamos el token como usado SOLAMENTE si tenemos una URL de reserva
     await this.prisma.client.appointment.update({
       where: { id: appointment.id },
       data: { calendlyTokenUsedAt: new Date() },
@@ -107,52 +120,5 @@ export class AppointmentsService {
       payerName: appointment.payerName,
       bookingUrl,
     };
-  }
-
-  private async createSingleUseLink(payerName: string, payerEmail: string): Promise<string | null> {
-    const apiToken = process.env.CALENDLY_TOKEN_SECRET;
-    const eventTypeUri = process.env.CALENDLY_EVENT_TYPE_URI;
-
-    if (!apiToken || !eventTypeUri) {
-      this.logger.error('Calendly credentials or event type URI not configured');
-      return null;
-    }
-
-    try {
-      const response = await fetch('https://api.calendly.com/scheduling_links', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          max_event_count: 1,
-          owner: eventTypeUri,
-          owner_type: 'EventType',
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        this.logger.error('Calendly API Error:', JSON.stringify(error));
-        return null;
-      }
-
-      const data = await response.json();
-      let bookingUrl = data.resource.booking_url;
-
-      // Prefill name and email if available
-      if (payerName || payerEmail) {
-        const url = new URL(bookingUrl);
-        if (payerName) url.searchParams.set('name', payerName);
-        if (payerEmail) url.searchParams.set('email', payerEmail);
-        bookingUrl = url.toString();
-      }
-
-      return bookingUrl;
-    } catch (err) {
-      this.logger.error('Error creating Calendly scheduling link:', err);
-      return null;
-    }
   }
 }

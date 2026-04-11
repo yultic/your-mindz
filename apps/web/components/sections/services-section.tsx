@@ -1,12 +1,12 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle, Badge, Button, cn, CardDescription } from '@jess-web/ui'
+import { useRef, useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, Badge, Button, cn } from '@jess-web/ui'
 import { Lightbulb, Sprout, ArrowUpRight, Check, Globe, MapPin, CreditCard, CheckCircle, X, Loader2 } from 'lucide-react'
 import { PaypalCheckout, type PaymentResult } from '@/components/features/checkout/paypal-checkout'
-import { console } from 'inspector'
+import Script from 'next/script'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+const API_URL = '/api-proxy'
 type CalendlyState = 'hidden' | 'validating' | 'visible' | 'error'
 
 export function ServicesSection() { 
@@ -14,7 +14,34 @@ export function ServicesSection() {
   const [completedPayments, setCompletedPayments] = useState<Record<string, boolean>>({})
   const [calendlyState, setCalendlyState] = useState<CalendlyState>('hidden')
   const [showFreeCalendly, setShowFreeCalendly] = useState(false)
+  const [bookingUrl, setBookingUrl] = useState<string | null>(null)
   const calendlyRef = useRef<HTMLDivElement>(null)
+  const widgetRef = useRef<HTMLDivElement>(null)
+
+  // Efecto para inicializar o actualizar el widget de Calendly
+  useEffect(() => {
+    const initCalendly = () => {
+      // @ts-ignore
+      if (typeof window !== 'undefined' && window.Calendly && widgetRef.current && (calendlyState === 'visible' || showFreeCalendly)) {
+        const url = showFreeCalendly ? "https://calendly.com/juan_skinnersv-proton/psicoterapia" : (bookingUrl ?? "")
+        if (url) {
+          // Limpiamos el contenedor antes de reinicializar para evitar duplicados
+          widgetRef.current.innerHTML = ''
+          // @ts-ignore
+          window.Calendly.initInlineWidget({
+            url: url,
+            parentElement: widgetRef.current,
+            prefill: {},
+            utm: {}
+          });
+        }
+      }
+    }
+
+    // Pequeño delay para asegurar que el elemento DOM esté listo tras el cambio de estado
+    const timer = setTimeout(initCalendly, 100)
+    return () => clearTimeout(timer)
+  }, [calendlyState, showFreeCalendly, bookingUrl])
 
   const services = [
     {
@@ -29,7 +56,9 @@ export function ServicesSection() {
       features: [
         'psychologische Session (online per Video oder Telefon)',
         'individuelle Impulse und Übungen zum Mitnehmen',
-        'wahlweise im Einzel- oder Paar-Setting'
+        'wahlweise im Einzel- oder Paar-Setting',
+        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen, um eine Stornierungsgebühr zu vermeiden.',
+        'Datenschutz und VertraulichkeitAlle Sitzungen sind vertraulich und entsprechen den HIPAA-Vorschriften. Ihre Privatsphäre und Ihre Sicherheit haben für mich oberste Priorität.'
       ],
       price: '150.00',
       displayPrice: '150 €',
@@ -50,7 +79,9 @@ export function ServicesSection() {
         'bis zu 3 psychologischen Gesprächsterminen/Monat (á 60 min, online per Video oder Telefon)',
         'individuelle Impulse und Übungen zum Mitnehmen',
         'kontinuierlicher Support per E-Mail o. Messenger',
-        'wahlweise im Einzel- oder Paar-Setting'
+        'wahlweise im Einzel- oder Paar-Setting',
+        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen, um eine Stornierungsgebühr zu vermeiden.',
+        'Datenschutz und VertraulichkeitAlle Sitzungen sind vertraulich und entsprechen den HIPAA-Vorschriften. Ihre Privatsphäre und Ihre Sicherheit haben für mich oberste Priorität.'
       ],
       price: '200.00',
       displayPrice: 'ab 200 €',
@@ -70,7 +101,9 @@ export function ServicesSection() {
         'intensive psychologische 1:1 Session',
         'angenehmes Setting im Raum Karlsruhe/Heilbronn',
         'individuelle Impulse und Übungen zum Mitnehmen',
-        'wahlweise im Einzel- oder Paar-Setting'
+        'wahlweise im Einzel- oder Paar-Setting',
+        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen, um eine Stornierungsgebühr zu vermeiden.',
+        'Datenschutz und VertraulichkeitAlle Sitzungen sind vertraulich und entsprechen den HIPAA-Vorschriften. Ihre Privatsphäre und Ihre Sicherheit haben für mich oberste Priorität.'
       ],
       price: '2300.00',
       displayPrice: '2.300 €',
@@ -84,8 +117,6 @@ export function ServicesSection() {
       calendlyRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start'})
     }, 150)
   }
-
-  const [bookingUrl, setBookingUrl] = useState<string | null>(null)
 
   const validateTokenAndShowCalendly = async (token: string) => {
     setCalendlyState('validating')
@@ -114,6 +145,7 @@ export function ServicesSection() {
   const handlePaymentSuccess = async (serviceId: string, result: PaymentResult) => {
     setCompletedPayments(prev => ({ ...prev, [serviceId]: true }))
     setActivePaymentId(null)
+    setShowFreeCalendly(false)
 
     if (result.calendlyToken) {
       await validateTokenAndShowCalendly(result.calendlyToken)
@@ -126,15 +158,21 @@ export function ServicesSection() {
   }
 
   const handleFreeConsultation = () => {
+    setCalendlyState('hidden')
     setShowFreeCalendly(true)
     scrollToCalendly()
   }
 
   return (
     <section id="services" className="py-24 px-6 md:px-8 bg-navbar-bg overflow-x-clip">
+      {/* Script cargado de forma optimizada al entrar a la sección */}
+      <Script 
+        src="https://assets.calendly.com/assets/external/widget.js" 
+        strategy="lazyOnload"
+      />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-serif text-[#4a5568] mb-6 px-4">
+          <h2 className="text-4xl md:text-8xl font-serif text-[#4a5568] mb-6 px-4">
             So arbeiten wir zusammen
           </h2>
           <p className="text-lg text-[#4a5568]/70 max-w-3xl mx-auto italic px-4">
@@ -337,13 +375,11 @@ export function ServicesSection() {
 
             {(calendlyState === 'visible' || showFreeCalendly) && calendlyState !== 'validating' && calendlyState !== 'error' && (
               <div className="bg-white rounded-[2rem] border border-[#8fbfa8]/20 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] overflow-hidden">
-                <iframe
-                  src={showFreeCalendly ? "https://calendly.com/juan_skinnersv-proton" : (bookingUrl ?? "")}
-                  width="100%"
-                  height="700"
-                  frameBorder="0"
-                  title="Terminbuchung"
-                  loading="lazy"
+                <div 
+                  className="calendly-inline-widget w-full"
+                  ref={widgetRef}
+                  style={{ minWidth: '320px', height: '700px' }}
+                  data-auto-load="false"
                 />
               </div>
             )}
