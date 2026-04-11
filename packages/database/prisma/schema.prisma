@@ -21,6 +21,7 @@ model Appointment {
   confirmedAt DateTime?
   calendlyToken String? @unique
   calendlyTokenUsedAt DateTime?
+  calendlyBookingUrl  String?
   createdAt DateTime? @default(now())
   updatedAt DateTime @updatedAt
 

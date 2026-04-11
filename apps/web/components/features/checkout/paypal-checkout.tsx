@@ -6,6 +6,7 @@ import { cn } from '@jess-web/ui'
 export interface PaymentResult {
     orderId: string
     status: string
+    calendlyToken?: string
     payerEmail?: string
     payerName?: string
     captureId?: string
@@ -40,7 +41,7 @@ function PayPalButtonWrapper ({
     const createOrder = useCallback(async () => {
         setPaymentState('processing')
         setErrorMessage(null)
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+        const API_URL = '/api-proxy'
         const res = await fetch(`${API_URL}/payments/paypal/create-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -60,7 +61,7 @@ function PayPalButtonWrapper ({
         async (data: {
             orderID: string}) => {
                 try {
-                    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+                    const API_URL = '/api-proxy'
                     const res = await fetch(
                         `${API_URL}/payments/paypal/capture/${data.orderID}`,
                         { method: 'POST'}

@@ -14,6 +14,10 @@ const serverSchema = z.object({
   // Resend
   RESEND_API_KEY: z.string().min(1),
   RESEND_FROM_EMAIL: z.string().email().optional().default('confirmaciones@jess-web.com'),
+
+  // Calendly
+  CALENDLY_TOKEN_SECRET: z.string().min(1),
+  CALENDLY_EVENT_TYPE_URI: z.string().min(1),
 });
 
 const clientSchema = z.object({

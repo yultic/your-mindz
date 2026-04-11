@@ -109,4 +109,28 @@ export class PaypalService {
 
     return await res.json();
   }
+
+  /**
+   * Helper para webhooks: obtiene los detalles de la orden a partir de un recurso de captura
+   */
+  async getOrderDetailsByCapture(captureResource: any) {
+    // Intentar encontrar el order_id en diferentes campos del recurso de captura de PayPal
+    let orderId = captureResource.supplementary_data?.related_ids?.order_id;
+    
+    // Si no está ahí, buscar en los links
+    if (!orderId && Array.isArray(captureResource.links)) {
+      const upLink = captureResource.links.find((l: any) => l.rel === 'up');
+      if (upLink) {
+        // El link 'up' suele ser a la orden: /v2/checkout/orders/{order_id}
+        const parts = upLink.href.split('/');
+        orderId = parts[parts.length - 1];
+      }
+    }
+
+    if (!orderId) {
+      throw new Error('Could not determine orderId from capture resource');
+    }
+
+    return this.getOrderDetails(orderId);
+  }
 }
