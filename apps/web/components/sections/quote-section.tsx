@@ -13,6 +13,8 @@ export function QuoteSection() {
             src="/family1.jpg"
             alt="Relationships and connection"
             fill
+            priority
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
           />
         </div>
@@ -36,6 +38,8 @@ export function QuoteSection() {
             src="/friends1.jpg"
             alt="Family and support"
             fill
+            priority
+            sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
           />
         </div>
