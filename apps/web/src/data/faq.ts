@@ -10,124 +10,62 @@ export interface FAQCategory {
 
 export const faqs: FAQCategory[] = [
   {
-    category: 'Getting Started',
+    category: 'FAQ',
     questions: [
       {
-        q: 'How do I schedule my first appointment?',
-        a: 'You can book an appointment directly through our online calendar, email us at contact@therapypractice.com, or reach out via WhatsApp. The online calendar is the fastest option and shows real-time availability.',
+        q: 'Was ist der Unterschied zwischen Coaching und Psychotherapie?',
+        a: 'Antwort: Coaching konzentriert sich meist auf spezifische Ziele, berufliche Herausforderungen oder die persönliche Weiterentwicklung im Hier und Jetzt. Psychotherapie ist eine tiefergehende klinische Behandlung von psychischen Beschwerden mit Krankheitswert (z.B. Depressionen oder Angststörungen) durch eine approbierte Fachkraft. Oben im Text gehe ich da auch nochmal spezifischer drauf ein.',
       },
       {
-        q: 'What should I expect in my first session?',
-        a: "Your first session is a consultation where we'll discuss your concerns, therapy goals, and my approach. I'll gather background information to understand your situation better. This helps us determine if we're a good fit and allows me to tailor treatment to your needs.",
+        q: 'Bietest du Therapie für Kinder und Jugendliche an?',
+        a: 'Antwort: Jein, als approbierte Kinder- und Jugendlichenpsychotherapeutin biete ich spezialisierte Unterstützung für Kinder, Jugendliche und deren Familien an und habe diesen Beruf auch schon mehrere Jahre ausgeführt. Ich wohne allerdings derzeit nicht in Deutschland, so dass ich damit kein Mitglied einer Psychotherapeutenkammer bin. Dieses ist aber Voraussetzung, um in Deutschland Psychotherapie anbieten zu dürfen. Da ich meine beruflichen Kenntnisse als Psychotherapeutin natürlich nicht vergessen habe, nur, weil ich meinen Wohnsitz ausserhalb Deutschlands verlegt habe, lasse ich diese Regelung gerade durch einen Anwalt für Medizinrecht prüfen. Sobald ich mit Gewissheit sagen kann, dass ich meine Psychotherapien auch aus dem Ausland abhalten darf, werde ich mit großer Freude auch wieder Psychotherapien, auf dieser website, anbieten.',
       },
       {
-        q: 'How long is a therapy session?',
-        a: 'Standard therapy sessions are 50 minutes. This allows time for meaningful work while leaving time for documentation and to prepare for the next client.',
-      },
-      {
-        q: 'What is your cancellation policy?',
-        a: 'Cancellations or rescheduling must be made at least 24 hours in advance to avoid a cancellation fee. Life happens, and I understand emergencies occur. Clear communication is appreciated.',
+        q: 'In welchen Sprachen findet die Beratung statt?',
+        a: 'Antwort: Ich biete alle Sitzungen fließend in **Deutsch, Englisch, Spanisch und Niederländisch** an. Du entscheidest in welcher Sprache du dich mit deinen Gefühlen und Gedanken am ehesten ausdrücken kannst.',
       },
     ],
   },
   {
-    category: 'Confidentiality & Privacy',
+    category: 'Ablauf & Technik',
     questions: [
       {
-        q: 'Is everything I say confidential?',
-        a: 'Yes, everything you share in therapy is confidential and protected by therapist-patient privilege. This is a legal protection that applies to our relationship.',
+        q: 'Wie läuft eine Online-Sitzung ab?',
+        a: 'Antwort: Wir treffen uns in einem gesicherten, datenschutzkonformen Videoraum. Um den Datenschutz DSGVO-konform und damit die Sicherheit vor Cyberangriffen zu gewährleisten, arbeite ich mit dem Anbieter „Threema“. Das ermöglicht uns eine Ende-zu-Ende verschlüsselte Kommunikation und Videosprechstunden, ohne Angabe der Handynummer. Die Nutzung erfordert nur eine einmalige Einverständniserklärung. Du benötigst lediglich eine stabile Internetverbindung, ein Mikrofon und einen privaten Ort, an dem du ungestört sprechen kannst.',
       },
       {
-        q: 'When can you break confidentiality?',
-        a: "There are limited exceptions to confidentiality: if you're an immediate danger to yourself or others, if there's abuse of a child or vulnerable adult, or if a court orders disclosure. I would discuss these situations with you.",
+        q: 'Wie buche ich einen Termin?',
+        a: "Antwort: Du kannst dein Erstgespräch direkt über den Kalender auf der Website buchen. Alternativ kannst du mir auch eine E-Mail schreiben und ich antworte dir schnellstmöglich.",
       },
       {
-        q: 'Is my therapy information HIPAA protected?',
-        a: 'Yes. I comply with HIPAA regulations. Your medical records are secure, encrypted, and stored confidentially. They will not be shared without your written consent.',
+        q: 'Gibt es eine Warteliste?',
+        a: 'Antwort:* Da ich online flexibel arbeite, sind Erstgespräche meist zeitnah innerhalb von 1–2 Wochen möglich.',
       },
       {
-        q: 'What happens if I need to be contacted by someone else?',
-        a: 'I will never share information with family, friends, or employers without your explicit written consent. You control who has access to your therapy information.',
+        q: 'Ich bin in einer Krise und brauche dringend Hilfe. Was kann ich tun?',
+        a: 'Antwort: In akuten psychischen und psychiatrischen Notfällen sind schnelle Hilfe und die richtigen Kontakte entscheidend. Bei akuter Eigen- oder Fremdgefährdung (Suizidgefahr, Aggression, Gewalt,…) bitte SOFORT den Notruf 112 (Deutschland) oder 144 (Österreich/ Schweiz) wählen. Rund um die Uhr bieten Krisendienste, psychiatrische Ambulanzen und Telefonseelsorgen (142, 0800-1110111). Da Kinder- und Jugendtelefon (116 111) bietet von Montag bis Samstag von 14.00 bis 20.00 Uhr Beratung an. Anonym und vom Festnetz sowie Handy kostenlos. Elterntelefon (0800 111 0 550) Erreichbarkeit Montag bis Freitag von 9.99 bis 17.00 Uhr. Dienstag und Donnerstag zusätzlich bis 19.00 Uhr.',
       },
     ],
   },
   {
-    category: 'Therapy & Treatment',
+    category: 'Kosten & Versicherung',
     questions: [
       {
-        q: 'How does therapy actually help?',
-        a: "Therapy works by helping you understand your thoughts, feelings, and behaviors in new ways. Through evidence-based techniques, you'll develop coping skills, process difficult experiences, and create meaningful change in your life.",
-      },
-      {
-        q: 'How long will I need therapy?',
-        a: "The duration varies based on your goals and needs. Some people benefit from short-term therapy (8-12 sessions), while others prefer longer-term support. We'll discuss this together and adjust as needed.",
-      },
-      {
-        q: 'Do you prescribe medication?',
-        a: "I don't prescribe medication as I'm not a psychiatrist. However, I can work with your prescribing doctor and refer you to a psychiatrist if medication might be helpful for your situation.",
-      },
-      {
-        q: 'What approaches do you use?',
-        a: 'I primarily use Cognitive-Behavioral Therapy (CBT), Trauma-Focused CBT, and mindfulness-based approaches. I tailor treatment to what works best for each individual.',
+        q: 'Werden die Kosten von der Krankenkasse übernommen?',
+        a: "Antwort: Da sich mein Angebot primär an Selbstzahler und Expatriates weltweit richtet, erfolgt die Abrechnung privat.",
       },
     ],
   },
   {
-    category: 'Scheduling & Sessions',
+    category: 'Besonderheiten für Expats',
     questions: [
       {
-        q: 'Do you offer virtual sessions?',
-        a: 'Yes! I offer both in-person and virtual sessions via secure video conference. Virtual sessions provide flexibility and are equally effective for many types of therapy.',
+        q: 'Warum ist eine Online-Therapie für Expats sinnvoll?',
+        a: 'Antwort: Ein Umzug ins Ausland bringt oft Identitätskrisen oder familiäre Belastungen mit sich. Eine Therapeutin und Coach zu haben, die die "Heimatsprache" spricht und die bürokratischen sowie emotionalen Hürden einer Auswanderung versteht, ist oft der Schlüssel zum Erfolg.',
       },
       {
-        q: 'What if I need to cancel a session?',
-        a: 'I understand life happens. Please provide at least 24 hours notice if you need to cancel or reschedule. Last-minute cancellations may result in a cancellation fee.',
-      },
-      {
-        q: 'What is your availability?',
-        a: 'I offer appointments Monday through Friday, 9am-6pm, with some evening availability. I also have limited Saturday morning slots. Check the online calendar for current availability.',
-      },
-      {
-        q: 'Can I text you between sessions?',
-        a: "I don't provide crisis support via text. However, you're welcome to send brief messages, and I'll respond during business hours. For emergencies, please call 911 or go to the nearest emergency room.",
-      },
-    ],
-  },
-  {
-    category: 'Costs & Insurance',
-    questions: [
-      {
-        q: 'What is your fee?',
-        a: 'My standard fee for a 50-minute session is $150. I offer sliding scale fees for those with financial hardship. Ask about payment plan options.',
-      },
-      {
-        q: 'Do you accept insurance?',
-        a: "I am currently out-of-network with most insurance plans. You can submit claims for reimbursement, and I'll provide necessary documentation (superbills) for your insurance.",
-      },
-      {
-        q: 'What payment methods do you accept?',
-        a: 'I accept credit cards, debit cards, and ACH transfers. Payment is due at the end of each session unless other arrangements have been made.',
-      },
-      {
-        q: 'Do you offer sliding scale fees?',
-        a: 'Yes, I believe everyone deserves access to quality mental health care. Sliding scale fees are available based on income and circumstances. Please discuss this with me.',
-      },
-    ],
-  },
-  {
-    category: 'Crisis & Emergency',
-    questions: [
-      {
-        q: "What if I'm in crisis?",
-        a: 'If you’re in immediate danger, please call 911 or go to your nearest emergency room. You can also contact the National Suicide Prevention Lifeline at 988 (available 24/7).',
-      },
-      {
-        q: 'Can you see me in an emergency?',
-        a: 'While I aim to be responsive, I may not always be available for emergency sessions. For urgent mental health crises, please contact emergency services, a crisis hotline, or go to an ER.',
-      },
-      {
-        q: 'What support resources are available?',
-        a: 'National Suicide Prevention Lifeline: 988 | Crisis Text Line: Text HOME to 741741 | National Alliance on Mental Illness: 1-800-950-NAMI (6264)',
+        q: 'In welcher Zeitzone arbeitest du?',
+        a: 'Antwort: Ich biete Termine an, die für verschiedene Zeitzonen (Europa, Amerika) optimiert sind. Bei der Buchung wird dir die verfügbare Zeit direkt in deiner Lokalzeit angezeigt.',
       },
     ],
   },
