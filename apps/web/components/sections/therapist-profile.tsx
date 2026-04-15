@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export function TherapistProfile() {
   return (
-    <section id="about" className="py-16 px-4 sm:px-6 lg:px-8 bg-navbar-bg">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-navbar-bg">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-stretch">
         {/* Left Column: Image that matches text height */}
         <div className="relative w-full h-[520px] mt-6 lg:mt-12 lg:h-auto lg:min-h-[680px] lg:max-h-[900px] mx-auto overflow-hidden rounded-sm shadow-sm">
@@ -34,8 +34,6 @@ export function TherapistProfile() {
             <h2 className="text-xl font-serif"><span>Ich stehe für:</span></h2>
             <p><strong>Flexibilität:</strong> Ortsunabhängige Begleitung ohne lange Wartezeiten. Ohne Bürokratie, da es bei Beginn unrelevant ist ob Psychotherapie durchgeführt werden soll oder Beratung/ Coaching.</p>
             <p><strong>Transparenz & Qualität:</strong> Klare Standards, Schweigepflichtseinhaltung durch meine deutsche Approbation als Kinder- und Jugendlichenpsychotherapeutin nach 203 (StGb), sichere Kommunikation, verständliche Berichte und DSGVO-konforme Prozesse. Klare Trennung von Psychotherapie und Coaching und Beratung.</p>
-            <p><strong>Nähe & Authentizität:</strong> Auch online entsteht echter Kontakt - con espacio para lenguaje, gestos y expresiones faciales.</p>
-            <p><strong>Mehrsprachigkeit und Interkultureller Ansatz:</strong> Angebote auf Deutsch, Spanisch, Englisch und Niederländisch möglich, damit Familien sich in ihrer vertrautesten Sprache öffnen können. Als Psychotherapeutin habe ich selbst vielseitige Erfahrung sammeln dürfen mit Themen, wie "Migration", "kulturelle Diversität" und wie sich dieses auf die psychische Gesundheit von Kindern, Jugendlichen und Familien auswirkt. Dabei nehme ich diese Erfahrungen der eigenen Lebenswelt mit in die Therapien und Beratungen und gehe einfühlsam mit kultursensiblen Inhalten um. <span>Dieses sowohl in Bezug auf die individuelle psychische Betreuung, als auch mit Hinblick auf deinen familiären Kontext.</span></p>
           </div>
 
           <div className="pt-4">

@@ -15,7 +15,7 @@ const expertise = [
 
 export function AboutTherapist() {
   return (
-    <section className="bg-navbar-bg py-24 px-6 md:px-12 lg:px-24">
+    <section id="about" className="bg-navbar-bg py-24 px-6 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-24 space-y-6">
@@ -35,7 +35,7 @@ export function AboutTherapist() {
           {/* Image Section */}
           <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full max-w-2xl overflow-hidden rounded-sm shadow-sm">
             <Image
-              src="/Jessy.png"
+              src="/jess2.png"
               alt="Jessica Greve"
               fill
               className="object-cover object-center"
@@ -47,7 +47,7 @@ export function AboutTherapist() {
           <div className="w-full max-w-4xl space-y-12">
             <div className="space-y-6">
               <p className="text-xl text-brand-gray/80 leading-relaxed font-light text-pretty">
-                Ich bin Sozialpädagogin (M.A.) und approbierte Kinder- und
+                Mein Name ist <span className="font-bold text-brand-gray">Jessica Greve</span>. Ich bin Sozialpädagogin (M.A.) und approbierte Kinder- und
                 Jugendlichenpsychotherapeutin mit Schwerpunkt
                 Verhaltenstherapie. Seit vielen Jahren begleite ich Kinder,
                 Jugendliche und ihre Familien in unterschiedlichen Lebenslagen -{" "}
@@ -72,6 +72,8 @@ export function AboutTherapist() {
                 Austausch mit einem Anwalt für Medizinrecht, so dass ich
                 langfristig auch wieder Psychotherapie anbieten darf.
               </p>
+              <p className="text-xl text-brand-gray/80 leading-relaxed font-light text-pretty"><span className="font-bold text-brand-gray">Nähe & Authentizität:</span> Auch online entsteht echter Kontakt - con espacio para lenguaje, gestos y expresiones faciales.</p>
+              <p className="text-xl text-brand-gray/80 leading-relaxed font-light text-pretty"><span className="font-bold text-brand-gray">Mehrsprachigkeit und Interkultureller Ansatz:</span> Angebote auf Deutsch, Spanisch, Englisch und Niederländisch möglich, damit Familien sich in ihrer vertrautesten Sprache öffnen können. Als Psychotherapeutin habe ich selbst vielseitige Erfahrung sammeln dürfen mit Themen, wie "Migration", "kulturelle Diversität" und wie sich dieses auf die psychische Gesundheit von Kindern, Jugendlichen und Familien auswirkt. Dabei nehme ich diese Erfahrungen der eigenen Lebenswelt mit in die Therapien und Beratungen und gehe einfühlsam mit kultursensiblen Inhalten um. <span>Dieses sowohl in Bezug auf die individuelle psychische Betreuung, als auch mit Hinblick auf deinen familiären Kontext.</span></p>
             </div>
 
             {/* Languages & Personal Section */}
