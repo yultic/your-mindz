@@ -3,23 +3,18 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  Card,
-  CardContent,
 } from '@jess-web/ui'
 import { faqs } from '@/src/data/faq'
 
-interface FAQSectionProps {
-  showContactCard?: boolean;
-}
-
-export function FAQSection({ showContactCard = true }: FAQSectionProps) {
+export function FAQSection() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted overflow-x-clip">
+    <section className="py-24 px-6 md:px-12 lg:px-24 bg-navbar-bg overflow-x-clip">
       <div className="max-w-4xl mx-auto">
-        <div className="space-y-12">
+        {/* FAQ Accordions */}
+        <div className="space-y-16">
           {faqs.map((section, sectionIndex) => (
             <div key={sectionIndex}>
-              <h2 className="text-2xl font-bold text-foreground mb-6 border-b pb-2">
+              <h2 className="text-2xl md:text-3xl font-serif font-medium text-brand-gray mb-8 border-b border-brand-gray/10 pb-4">
                 {section.category}
               </h2>
               <Accordion type="single" collapsible className="w-full">
@@ -27,12 +22,12 @@ export function FAQSection({ showContactCard = true }: FAQSectionProps) {
                   <AccordionItem
                     key={itemIndex}
                     value={`${sectionIndex}-${itemIndex}`}
-                    className="border-border"
+                    className="border-brand-gray/10"
                   >
-                    <AccordionTrigger className="text-foreground hover:text-primary text-left">
+                    <AccordionTrigger className="text-brand-gray hover:text-brand-green text-left text-lg font-light py-6 transition-all">
                       {item.q}
                     </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground leading-relaxed">
+                    <AccordionContent className="text-brand-gray/70 leading-relaxed text-base pb-6 font-light">
                       {item.a}
                     </AccordionContent>
                   </AccordionItem>
@@ -42,33 +37,21 @@ export function FAQSection({ showContactCard = true }: FAQSectionProps) {
           ))}
         </div>
 
-        {showContactCard && (
-          <Card className="mt-16 bg-primary/5 border-primary/20">
-            <CardContent className="pt-8">
-              <h3 className="text-xl font-bold text-foreground mb-4">
-                Didn't find your answer?
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Feel free to reach out with any questions. I'm happy to discuss your concerns 
-                and how I can help you on your mental health journey.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="mailto:contact@therapypractice.com"
-                  className="inline-flex items-center justify-center px-6 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium"
-                >
-                  Send Email
-                </a>
-                <a
-                  href="/#booking"
-                  className="inline-flex items-center justify-center px-6 py-2 rounded-md border border-primary text-primary hover:bg-primary/10 transition-colors font-medium"
-                >
-                  Schedule Consultation
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+        {/* Contact Message */}
+        <div className="mt-24 text-center space-y-8 border-t border-brand-gray/5 pt-20">
+          <p className="text-2xl md:text-4xl font-serif text-brand-gray leading-tight max-w-3xl mx-auto">
+            Hast du noch andere Fragen? Schreibe mir gerne eine E-Mail. 
+            Ich melde mich schnellstmöglich bei dir zurück.
+          </p>
+          <div className="pt-4">
+            <a
+              href="mailto:contact@therapypractice.com"
+              className="inline-flex items-center justify-center px-12 py-5 rounded-full bg-[#c4a47c] text-white hover:bg-[#b3936b] transition-all font-bold text-sm tracking-[0.2em] uppercase shadow-md hover:shadow-lg hover:-translate-y-1"
+            >
+              E-Mail schreiben
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, Badge, Button, cn } from '@jess-web/ui'
-import { Lightbulb, Sprout, ArrowUpRight, Check, Globe, MapPin, CreditCard, CheckCircle, X, Loader2 } from 'lucide-react'
+import { Lightbulb, Hourglass, ArrowUpRight, Check, Globe, MapPin, CreditCard, CheckCircle, X, Loader2, Calendar } from 'lucide-react'
 import { PaypalCheckout, type PaymentResult } from '@/components/features/checkout/paypal-checkout'
 import Script from 'next/script'
 
@@ -11,6 +11,7 @@ type CalendlyState = 'hidden' | 'validating' | 'visible' | 'error'
 
 export function ServicesSection() { 
   const [activePaymentId, setActivePaymentId] = useState<string | null>(null)
+  const [isExtraPaymentActive, setIsExtraPaymentActive] = useState(false)
   const [completedPayments, setCompletedPayments] = useState<Record<string, boolean>>({})
   const [calendlyState, setCalendlyState] = useState<CalendlyState>('hidden')
   const [showFreeCalendly, setShowFreeCalendly] = useState(false)
@@ -25,7 +26,6 @@ export function ServicesSection() {
       if (typeof window !== 'undefined' && window.Calendly && widgetRef.current && (calendlyState === 'visible' || showFreeCalendly)) {
         const url = showFreeCalendly ? "https://calendly.com/juan_skinnersv-proton/psicoterapia" : (bookingUrl ?? "")
         if (url) {
-          // Limpiamos el contenedor antes de reinicializar para evitar duplicados
           widgetRef.current.innerHTML = ''
           // @ts-ignore
           window.Calendly.initInlineWidget({
@@ -38,7 +38,6 @@ export function ServicesSection() {
       }
     }
 
-    // Pequeño delay para asegurar que el elemento DOM esté listo tras el cambio de estado
     const timer = setTimeout(initCalendly, 100)
     return () => clearTimeout(timer)
   }, [calendlyState, showFreeCalendly, bookingUrl])
@@ -51,62 +50,61 @@ export function ServicesSection() {
       icon: Lightbulb,
       location: 'ONLINE',
       locationIcon: Globe,
-      description: 'Für alle, die zwischen Karriere und Privatleben feststecken und sich einen klaren Impuls für konkrete nächste Schritte wünschen.',
-      duration: '1 Session à 2 Stunden',
+      description: 'Jede Zusammenarbeit beginnt mit einem unverbindlichen und kostenfreien Orientierungsgespräch. Gemeinsam klären wir, wo Sie gerade stehen, welche Ziele Sie verfolgen und welches Angebot zu Ihrer Situation passt.',
+      duration: '1 Session',
       features: [
-        'psychologische Session (online per Video oder Telefon)',
+        'Kennenlerngespräch 20min videocall gratis',
         'individuelle Impulse und Übungen zum Mitnehmen',
-        'wahlweise im Einzel- oder Paar-Setting',
-        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen, um eine Stornierungsgebühr zu vermeiden.',
+        'Stornierungsbedingungen: Stornierungen oder Terminänderungen müssen mindestens 24 Stunden im Voraus erfolgen.',
         'Datenschutz und VertraulichkeitAlle Sitzungen sind vertraulich und entsprechen den HIPAA-Vorschriften. Ihre Privatsphäre und Ihre Sicherheit haben für mich oberste Priorität.'
       ],
-      price: '150.00',
-      displayPrice: '150 €',
+      price:'FREE',
+      displayPrice:'FREE',
       priceDetail: 'inkl. MwSt.',
       highlight: false,
     },
     {
-      id: 'therapeutische-begleitung',
-      title: 'Therapeutische Begleitung',
-      subtitle: 'Nachhaltige Veränderung.',
-      icon: Sprout,
+      id: 'Coaching/Beratung',
+      title: 'Coaching/Beratung',
+      subtitle: 'Probewoche',
+      icon: Hourglass,
       location: 'ONLINE',
       locationIcon: Globe,
-      cornerBadge: 'häufig gewählt',
-      description: 'Maßgeschneiderte Begleitung. Nachhaltige Veränderung. Für alle, die nachhaltig beruflich erfolgreich sein und bleiben möchten, ohne ihre mentale Stabilität und ihr Privatleben zu vernachlässigen.',
-      duration: 'Begleitung über mind. 6 Monate (individuell verlängerbar)',
+      cornerBadge: 'Empfohlen',
+      description: 'Individuelle Begleitung. Nachhaltige Veränderung.Für Erwachsene, Jugendliche und Kinder, die ihr emotionales Wohlbefinden und ihre persönliche Entwicklung fördern möchten, indem sie ihr seelisches Gleichgewicht, ihre Beziehungen und ihre Lebensqualität in jeder Lebensphase stärken.',
+      duration: '1 Woche messenger support. Digitalbetreuung für einen Monat',
       features: [
-        'bis zu 3 psychologischen Gesprächsterminen/Monat (á 60 min, online per Video oder Telefon)',
-        'individuelle Impulse und Übungen zum Mitnehmen',
-        'kontinuierlicher Support per E-Mail o. Messenger',
-        'wahlweise im Einzel- oder Paar-Setting',
-        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen, um eine Stornierungsgebühr zu vermeiden.',
+        '1 videocall á 50min',
+        'Messenger- Support (500 Wörter Textnachricht oder Spracheingabe) wöchentlich plus 2',
+        'Zugang zur YourMindz Ressourcenbox (Videos, Audios, worksheets',
+        'Priorisierte Terminreservierung in meinem online Kalender Bereitstellung der datensicheren Video-Plattform',
+        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen.',
         'Datenschutz und VertraulichkeitAlle Sitzungen sind vertraulich und entsprechen den HIPAA-Vorschriften. Ihre Privatsphäre und Ihre Sicherheit haben für mich oberste Priorität.'
       ],
-      price: '200.00',
-      displayPrice: 'ab 200 €',
+      price: '79.00',
+      displayPrice: 'ab 79 €',
       priceDetail: 'inkl. MwSt. (350 € monatlich)',
       highlight: true,
     },
     {
-      id: 'intensiv-tag',
-      title: 'Therapie-Intensiv-Tag',
+      id: 'Leistungen Coaching',
+      title: 'Leistungen Coaching',
       subtitle: 'Ein Tag. Ihr Wendepunkt.',
       icon: ArrowUpRight,
       location: 'VOR ORT',
       locationIcon: MapPin,
-      description: 'Für alle, die sich einen kraftvollen Perspektivwechsel wünschen, um sich wieder ausgeglichener, leistungsfähiger und leichter zu fühlen – im Job, Alltag und Privatleben.',
-      duration: '1 Therapietag á ca. 5 Stunden',
+      description: 'Für alle, die bereit sind, neue Perspektiven zu entwickeln und nachhaltig mehr Balance, Klarheit und Lebensqualität zu gewinnen - in allen Bereichen ihres Lebens.',
+      duration: '2x monatliche Videosessions (je 50min) "Resilienz und Wachstum“ sowie Digitalbetreuung für einen Monat',
       features: [
-        'intensive psychologische 1:1 Session',
-        'angenehmes Setting im Raum Karlsruhe/Heilbronn',
-        'individuelle Impulse und Übungen zum Mitnehmen',
-        'wahlweise im Einzel- oder Paar-Setting',
-        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen, um eine Stornierungsgebühr zu vermeiden.',
+        'Messenger- Support (500 Wörter Textnachricht o Spracheingabe) wöchentlich plus 2 psychotherapeutisch begründete Antworten und Impulse. Begleitung  der in den Sessions behandelten Themen und Unterstützung bei den Umsetzungen.',
+        'Zugang zur YourMindz Ressourcenbox (Videos, Audios, worksheets',
+        'Priorisierte  Terminreservierung in meinem online Kalender Bereitstellung der datensicheren Video- Plattform',
+        'Coaching/Beratung reguläres Monatspaket',
+        'Stornierungsbedingungen Stornierungen oder Terminverschiebungen müssen mindestens 24 Stunden im Voraus erfolgen.',
         'Datenschutz und VertraulichkeitAlle Sitzungen sind vertraulich und entsprechen den HIPAA-Vorschriften. Ihre Privatsphäre und Ihre Sicherheit haben für mich oberste Priorität.'
       ],
-      price: '2300.00',
-      displayPrice: '2.300 €',
+      price: '299.00',
+      displayPrice: '299 €',
       priceDetail: 'inkl. MwSt. und Räumlichkeiten',
       highlight: false,
     }
@@ -145,13 +143,12 @@ export function ServicesSection() {
   const handlePaymentSuccess = async (serviceId: string, result: PaymentResult) => {
     setCompletedPayments(prev => ({ ...prev, [serviceId]: true }))
     setActivePaymentId(null)
+    setIsExtraPaymentActive(false)
     setShowFreeCalendly(false)
 
     if (result.calendlyToken) {
       await validateTokenAndShowCalendly(result.calendlyToken)
     } else {
-      // Fallback: si no hay token por algún error de DB, mostramos igual
-      // El webhook reconciliará el pago
       setCalendlyState('visible')
       scrollToCalendly()
     }
@@ -165,7 +162,6 @@ export function ServicesSection() {
 
   return (
     <section id="services" className="py-24 px-6 md:px-8 bg-navbar-bg overflow-x-clip">
-      {/* Script cargado de forma optimizada al entrar a la sección */}
       <Script 
         src="https://assets.calendly.com/assets/external/widget.js" 
         strategy="lazyOnload"
@@ -176,8 +172,8 @@ export function ServicesSection() {
             So arbeiten wir zusammen
           </h2>
           <p className="text-lg text-[#4a5568]/70 max-w-3xl mx-auto italic px-4">
-            Diskrete, professionelle und flexible therapeutische Angebote, die sich nahtlos in Ihr
-            Leben einfügen – nicht umgekehrt.
+            Diskrete, professionelle und flexible Coaching- und Beratungsangebote, 
+            die sich nahtlos in dein Leben einfügen- Nicht umgekehrt.
           </p>
         </div>
 
@@ -187,6 +183,7 @@ export function ServicesSection() {
             const LocationIcon = service.locationIcon
             const isPaying = activePaymentId === service.id
             const isPaid = completedPayments[service.id]
+            const isFree = service.price === 'FREE'
 
             return (
               <Card
@@ -297,7 +294,7 @@ export function ServicesSection() {
                             Invest:
                           </div>
                           <div className="text-2xl md:text-3xl font-bold text-[#4a5568] flex items-baseline justify-center gap-1">
-                            <span className="text-sm font-medium text-[#8fbfa8]/60">ab</span>
+                            {isFree ? '' : <span className="text-sm font-medium text-[#8fbfa8]/60">ab</span>}
                             {service.displayPrice.replace('ab ', '')}
                           </div>
                           <div className="text-[10px] text-[#4a5568]/50 mt-2 font-medium">
@@ -305,13 +302,23 @@ export function ServicesSection() {
                           </div>
                         </div>
 
-                        <Button
-                          onClick={() => setActivePaymentId(service.id)}
-                          className="w-full bg-[#8fbfa8] hover:bg-[#7aa894] text-white rounded-full py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2"
-                        >
-                          <CreditCard className="w-4 h-4" />
-                          JETZT BUCHEN
-                        </Button>
+                        {isFree ? (
+                          <Button
+                            onClick={handleFreeConsultation}
+                            className="w-full bg-[#8fbfa8] hover:bg-[#7aa894] text-white rounded-full py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                          >
+                            <Calendar className="w-4 h-4" />
+                            KOSTENFREI BUCHEN
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => setActivePaymentId(service.id)}
+                            className="w-full bg-[#8fbfa8] hover:bg-[#7aa894] text-white rounded-full py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                          >
+                            <CreditCard className="w-4 h-4" />
+                            JETZT BUCHEN
+                          </Button>
+                        )}
                       </div>
                     </>
                   )}
@@ -321,26 +328,44 @@ export function ServicesSection() {
           })}
         </div>
 
-        {/* Texto + botón de Orientierungsgespräch */}
+        {/* Sección del botón inferior de 50€ */}
         <div className="text-center mt-20 mb-8 px-4">
           <p className="text-[#6a917e] text-lg md:text-xl leading-relaxed max-w-4xl mx-auto font-light">
-            <span className="font-bold">Jede Zusammenarbeit</span> beginnt mit einem
-            unverbindlichen und kostenfreien{' '}
-            <span className="font-bold">Orientierungsgespräch</span>. Gemeinsam klären wir, wo Sie
-            gerade stehen, welche <span className="font-bold">Ziele</span> Sie verfolgen und welches{' '}
-            <span className="font-bold">Angebot</span> zu Ihrer Situation passt.
+            <span className="font-bold">Falls ihr zusätzliche videocalls im Monat</span> dazubuchen möchtet, 
+              dann bekommt ihr natürlich den Vorzug in meinem Terminkalender.{' '}
+            <span className="font-bold">Um die Zusatzkosten gering zu halten für</span>. euch, kostet jedes weitere 
+              Videogespräch nur <span className="font-bold">50EUR</span> extra zum Paketpreis{' '}
           </p>
-          <div className="mt-10">
-            <Button
-              onClick={handleFreeConsultation}
-              className="bg-[#6a917e] hover:bg-[#5a8570] text-white rounded-full px-10 py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
-            >
-              Orientierungsgespräch vereinbaren
-            </Button>
+          <div className="mt-10 max-w-md mx-auto">
+            {isExtraPaymentActive ? (
+              <div className="bg-white p-8 rounded-[2rem] border border-[#8fbfa8]/20 shadow-xl animate-in zoom-in duration-300">
+                <div className="flex items-center justify-between mb-6">
+                  <h4 className="font-bold text-[#4a5568]">Zusätzliches Video (50 €)</h4>
+                  <button onClick={() => setIsExtraPaymentActive(false)} className="text-red-400">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <PaypalCheckout
+                  amount="50.00"
+                  description="Zusätzliches Video-Gespräch"
+                  sessionType="extra-session"
+                  onSuccess={(result) => handlePaymentSuccess('extra-session', result)}
+                  onCancel={() => setIsExtraPaymentActive(false)}
+                />
+              </div>
+            ) : (
+              <Button
+                onClick={() => setIsExtraPaymentActive(true)}
+                className="bg-[#6a917e] hover:bg-[#5a8570] text-white rounded-full px-10 py-7 text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+              >
+                <CreditCard className="w-4 h-4 mr-2" />
+                50 € zusätzliches Video
+              </Button>
+            )}
           </div>
         </div>
 
-        {/* Sección de Calendly — aparece tras pago o al presionar el botón free */}
+        {/* Sección de Calendly */}
         {(calendlyState !== 'hidden' || showFreeCalendly) && (
           <div
             ref={calendlyRef}
@@ -368,7 +393,7 @@ export function ServicesSection() {
               <div className="text-center py-8 px-4 bg-red-50 border border-red-200 rounded-2xl max-w-md mx-auto">
                 <p className="text-red-700 font-medium mb-2">Zugang konnte nicht bestätigt werden</p>
                 <p className="text-red-600 text-sm">
-                  Ihr Zahlung wurde erfolgreich verarbeitet. Bitte kontaktieren Sie uns direkt, um Ihren Termin zu vereinbaren.
+                  Ihr Zahlung wurde erfolgreich verarbeitet. Bitte kontaktieren Sie uns directamente, um Ihren Termin zu vereinbaren.
                 </p>
               </div>
             )}
@@ -378,7 +403,7 @@ export function ServicesSection() {
                 <div 
                   className="calendly-inline-widget w-full"
                   ref={widgetRef}
-                  style={{ minWidth: '320px', height: '700px' }}
+                  style={{ minWidth: '100%', height: '700px' }}
                   data-auto-load="false"
                 />
               </div>

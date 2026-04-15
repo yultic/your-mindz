@@ -30,13 +30,13 @@ export function Navigation() {
 
   const navLinksLeft = [
     { label: "Home", href: "/" },
-    { label: "About", href: "#about" },
+    { label: "Über", href: "#about" },
   ];
 
   const navLinksRight = [
-    { label: "Services", href: "#services" },
-    { label: "Booking", href: "#booking" },
-    { label: "Contact", href: "#contact" },
+    { label: "Dienstleistungen", href: "#services" },
+    { label: "Blog", href: "#blog" },
+    { label: "Kontakt", href: "#contact" },
   ];
 
   const allLinks = [...navLinksLeft, ...navLinksRight];
