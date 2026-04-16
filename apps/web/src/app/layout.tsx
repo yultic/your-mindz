@@ -1,20 +1,31 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { StructuredData } from '@/components/layout/structured-data'
-import './globals.css'
+import { ThemeProvider } from '@/components/layout/theme-provider'
+import { Toaster } from '@jess-web/ui'
+import '@/src/app/globals.css' 
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
-  title: 'Professional Therapy & Counseling Services | Licensed Therapist',
-  description: 'Compassionate, evidence-based therapy for anxiety, depression, trauma, and more. Book your appointment online with a licensed psychotherapist. Confidential, professional mental health support.',
+  title: {
+    default: 'Jessica Greve | Psychotherapie, Coaching & Beratung',
+    template: '%s | Jessica Greve'
+  },
+  description: 'Professionelles Coaching und Beratung für Erwachsene, Kinder und Jugendliche. Online-Therapie auf Deutsch, Spanisch, Englisch und Niederländisch.',
   generator: 'skinner.app',
-  keywords: 'therapist, psychotherapist, counseling, therapy, mental health, licensed therapist, anxiety treatment, depression help, trauma therapy',
-  authors: [{ name: 'Therapist Name' }],
-  creator: 'Therapist Name',
-  publisher: 'Therapy Practice',
+  keywords: ['Psychotherapie', 'Coaching', 'Beratung', 'Jessica Greve', 'Online-Therapie', 'Kinderpsychotherapie', 'Jugendlichenpsychotherapie', 'Verhaltenstherapie'],
+  authors: [{ name: 'Jessica Greve' }],
+  creator: 'Jessica Greve',
+  publisher: 'Jessica Greve',
   formatDetection: {
     email: false,
     telephone: false,
@@ -22,24 +33,24 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: 'https://therapist-website.com',
-    siteName: 'Professional Therapy Services',
-    title: 'Professional Therapy & Counseling Services | Licensed Therapist',
-    description: 'Compassionate, evidence-based therapy for anxiety, depression, trauma, and more. Book your appointment online.',
+    locale: 'de_DE',
+    url: 'https://jessica-greve.de',
+    siteName: 'Jessica Greve - Psychotherapie & Coaching',
+    title: 'Jessica Greve | Psychotherapie, Coaching & Beratung',
+    description: 'Professionelles Coaching und Beratung für Erwachsene, Kinder und Jugendliche. Online-Therapie auf Deutsch, Spanisch, Englisch und Niederländisch.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Professional Therapy Services',
+        alt: 'Jessica Greve - Psychotherapie & Coaching',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Professional Therapy & Counseling Services',
-    description: 'Compassionate therapy for anxiety, depression, trauma, and more.',
+    title: 'Jessica Greve | Psychotherapie, Coaching & Beratung',
+    description: 'Professionelles Coaching und Beratung für Erwachsene, Kinder und Jugendliche.',
     images: ['/og-image.jpg'],
   },
   robots: {
@@ -92,13 +103,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <StructuredData />
-      </head>
-      <body className="font-sans antialiased">
-        {children}
-        <Analytics />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased min-h-screen`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

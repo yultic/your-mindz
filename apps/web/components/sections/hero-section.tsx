@@ -19,10 +19,20 @@ export function HeroSection() {
           <span className="text-brand-pink"> sowie Kinder und Jugendliche (6- 18 Jahre)</span>
         </h1>
 
-        <p className="text-lg sm:text-xl text-background/90 mb-10 max-w-2xl mx-auto text-balance font-medium">
+        <p className="text-lg sm:text-xl text-background/90 mb-6 max-w-2xl mx-auto text-balance font-medium">
           Psychotherapie, professionelle Beratung und Coaching für jeden zugänglich machen- ohne 
           zwingend eine Diagnose vorliegen zu haben und ohne Bürokratie. Individuell an deinen Wünschen und Bedürfnissen orientiert.
         </p>
+
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-10 text-brand-pink/90 font-medium tracking-wide text-sm sm:text-base">
+          <span className='hover:bg-brand-green'>Deutsch</span>
+          <span className="text-brand-green">•</span>
+          <span className='hover:bg-brand-green'>Español</span>
+          <span className="text-brand-green">•</span>
+          <span className='hover:bg-brand-green'>English</span>
+          <span className="text-brand-green">•</span>
+          <span className='hover:bg-brand-green'>Nederlands</span>
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
           <Button
