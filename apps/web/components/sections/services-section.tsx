@@ -60,7 +60,6 @@ export function ServicesSection() {
       ],
       price:'FREE',
       displayPrice:'FREE',
-      priceDetail: 'inkl. MwSt.',
       highlight: false,
     },
     {
@@ -83,7 +82,6 @@ export function ServicesSection() {
       ],
       price: '79.00',
       displayPrice: 'ab 79 €',
-      priceDetail: 'inkl. MwSt. (350 € monatlich)',
       highlight: true,
     },
     {
@@ -105,7 +103,6 @@ export function ServicesSection() {
       ],
       price: '299.00',
       displayPrice: '299 €',
-      priceDetail: 'inkl. MwSt. und Räumlichkeiten',
       highlight: false,
     }
   ]
@@ -296,9 +293,6 @@ export function ServicesSection() {
                           <div className="text-2xl md:text-3xl font-bold text-[#4a5568] flex items-baseline justify-center gap-1">
                             {isFree ? '' : <span className="text-sm font-medium text-[#8fbfa8]/60">ab</span>}
                             {service.displayPrice.replace('ab ', '')}
-                          </div>
-                          <div className="text-[10px] text-[#4a5568]/50 mt-2 font-medium">
-                            {service.priceDetail}
                           </div>
                         </div>
 

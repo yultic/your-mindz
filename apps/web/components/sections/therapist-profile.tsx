@@ -17,23 +17,29 @@ export function TherapistProfile() {
         </div>
 
         {/* Right Column: Content matching the screenshot layout */}
-        <div className="flex flex-col justify-center space-y-4 text-foreground">
-          <div className="space-y-3">
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-brand-gray/60">
+        <div className="flex flex-col justify-center space-y-8 text-foreground">
+          <div className="space-y-3 text-lg text-brand-gray/80 leading-relaxed font-light text-pretty text-center lg:text-left">
+            <span className="text-xl font-bold tracking-[0.3em] uppercase text-brand-gray/90 block">
               Meine Mission
             </span>
-            <h2 className="text-2xl sm:text-4xl lg:text-3xl font-serif leading-tight font-medium text-brand-gray text-center lg:text-left">
+            <p>
               Ich stelle mir eine Welt vor, in der alle Kinder und Jugendlichen unabhängig von Sprache, Herkunft oder Wohnort Zugang zu professioneller psychologischer Unterstützung haben.
-              <span className="block mt-2">
+            </p>
+            <p>
                 Eine Welt, in der digitale Angebote Brücken bauen zwischen Kulturen, Familien und Generationen – und psychische Gesundheit selbstverständlich, niedrigschwellig und flexibel gefördert wird.
-              </span>
-            </h2>
+            </p>
           </div>
 
           <div className="space-y-3 text-lg text-brand-gray/80 leading-relaxed font-light text-pretty text-center lg:text-left">
-            <h2 className="text-xl font-serif"><span>Ich stehe für:</span></h2>
-            <p><strong>Flexibilität:</strong> Ortsunabhängige Begleitung ohne lange Wartezeiten. Ohne Bürokratie, da es bei Beginn unrelevant ist ob Psychotherapie durchgeführt werden soll oder Beratung/ Coaching.</p>
-            <p><strong>Transparenz & Qualität:</strong> Klare Standards, Schweigepflichtseinhaltung durch meine deutsche Approbation als Kinder- und Jugendlichenpsychotherapeutin nach 203 (StGb), sichere Kommunikation, verständliche Berichte und DSGVO-konforme Prozesse. Klare Trennung von Psychotherapie und Coaching und Beratung.</p>
+            <span className="text-xl font-bold tracking-[0.3em] uppercase text-brand-gray/90 block">
+              Ich stehe für:
+            </span>
+            <p>Flexibilität, Ortsunabhängige Begleitung ohne lange Wartezeiten. Ohne Bürokratie, da es bei Beginn unrelevant ist ob Psychotherapie durchgeführt werden soll oder Beratung/ Coaching.
+            </p>
+            <p>
+              <span className="text-xl font-bold tracking-[0.3em] uppercase text-brand-gray/90 block">Transparenz & Qualität:</span> 
+              Klare Standards, Schweigepflichtseinhaltung durch meine deutsche Approbation als Kinder- und Jugendlichenpsychotherapeutin nach 203 (StGb), sichere Kommunikation, verständliche Berichte und DSGVO-konforme Prozesse. Klare Trennung von Psychotherapie und Coaching und Beratung.
+            </p>
           </div>
 
           <div className="pt-4">
