@@ -72,7 +72,7 @@ export function AboutTherapist() {
                 Austausch mit einem Anwalt für Medizinrecht, so dass ich
                 langfristig auch wieder Psychotherapie anbieten darf.
               </p>
-              <p className="text-xl text-brand-gray/80 leading-relaxed font-light text-pretty"><span className="font-bold text-brand-gray">Nähe & Authentizität:</span> Auch online entsteht echter Kontakt - con espacio para lenguaje, gestos y expresiones faciales.</p>
+              <p className="text-xl text-brand-gray/80 leading-relaxed font-light text-pretty"><span className="font-bold text-brand-gray">Nähe & Authentizität:</span> Auch online entsteht echter Kontakt - mit Raum für Sprache, Gestik und Mimik.</p>
               <p className="text-xl text-brand-gray/80 leading-relaxed font-light text-pretty"><span className="font-bold text-brand-gray">Mehrsprachigkeit und Interkultureller Ansatz:</span> Angebote auf Deutsch, Spanisch, Englisch und Niederländisch möglich, damit Familien sich in ihrer vertrautesten Sprache öffnen können. Als Psychotherapeutin habe ich selbst vielseitige Erfahrung sammeln dürfen mit Themen, wie "Migration", "kulturelle Diversität" und wie sich dieses auf die psychische Gesundheit von Kindern, Jugendlichen und Familien auswirkt. Dabei nehme ich diese Erfahrungen der eigenen Lebenswelt mit in die Therapien und Beratungen und gehe einfühlsam mit kultursensiblen Inhalten um. <span>Dieses sowohl in Bezug auf die individuelle psychische Betreuung, als auch mit Hinblick auf deinen familiären Kontext.</span></p>
             </div>
 
