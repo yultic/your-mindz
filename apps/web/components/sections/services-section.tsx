@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, Badge, Button, cn } from '@jess-web/ui'
 import { Lightbulb, Hourglass, ArrowUpRight, Check, Globe, MapPin, CreditCard, CheckCircle, X, Loader2, Calendar } from 'lucide-react'
 import { PaypalCheckout, type PaymentResult } from '@/components/features/checkout/paypal-checkout'
+import { ThreemaDialog } from '@/components/features/contact/threema-dialog'
 import Script from 'next/script'
 
 const API_URL = '/api-proxy'
@@ -16,8 +17,26 @@ export function ServicesSection() {
   const [calendlyState, setCalendlyState] = useState<CalendlyState>('hidden')
   const [showFreeCalendly, setShowFreeCalendly] = useState(false)
   const [bookingUrl, setBookingUrl] = useState<string | null>(null)
+  const [isThreemaDialogOpen, setIsThreemaDialogOpen] = useState(false)
   const calendlyRef = useRef<HTMLDivElement>(null)
   const widgetRef = useRef<HTMLDivElement>(null)
+
+  // Listener para eventos de Calendly
+  useEffect(() => {
+    const handleCalendlyEvent = (e: MessageEvent) => {
+      const eventName = e.data.event || e.data.action;
+      
+      if (eventName === 'calendly.event_scheduled') {
+        setIsThreemaDialogOpen(true);
+        setTimeout(() => {
+          setCalendlyState('hidden');
+          setShowFreeCalendly(false);
+        }, 500);
+      }
+    }
+    window.addEventListener('message', handleCalendlyEvent)
+    return () => window.removeEventListener('message', handleCalendlyEvent)
+  }, [])
 
   // Efecto para inicializar o actualizar el widget de Calendly
   useEffect(() => {
@@ -37,7 +56,6 @@ export function ServicesSection() {
         }
       }
     }
-
     const timer = setTimeout(initCalendly, 100)
     return () => clearTimeout(timer)
   }, [calendlyState, showFreeCalendly, bookingUrl])
@@ -116,7 +134,6 @@ export function ServicesSection() {
   const validateTokenAndShowCalendly = async (token: string) => {
     setCalendlyState('validating')
     scrollToCalendly()
-
     try {
       const res = await fetch(`${API_URL}/appointments/validate-token?token=${token}`)
       if (!res.ok) {
@@ -136,13 +153,11 @@ export function ServicesSection() {
     }
   }
 
-
   const handlePaymentSuccess = async (serviceId: string, result: PaymentResult) => {
     setCompletedPayments(prev => ({ ...prev, [serviceId]: true }))
     setActivePaymentId(null)
     setIsExtraPaymentActive(false)
     setShowFreeCalendly(false)
-
     if (result.calendlyToken) {
       await validateTokenAndShowCalendly(result.calendlyToken)
     } else {
@@ -405,6 +420,11 @@ export function ServicesSection() {
           </div>
         )}
       </div>
+
+      <ThreemaDialog 
+        isOpen={isThreemaDialogOpen} 
+        onClose={() => setIsThreemaDialogOpen(false)} 
+      />
     </section>
   )
 }
